@@ -1,0 +1,73 @@
+﻿@using Ecommerce.ViewModel
+@model HomeViewModel
+@{
+    ViewBag.Title = "Adminlte";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <section class="card card-featured-left card-featured-primary mb-4">
+            <div class="card-body">
+                <div class="widget-summary widget-summary-xlg">
+
+                    <div class="widget-summary-col">
+                        <div class="summary">
+                            <h4 class="title">Category</h4>
+                            <div class="info">
+                                <strong class="amount">@Model.Category</strong>
+                            </div>
+                        </div>
+                        <div class="summary-footer">
+                            <a class="text-muted text-uppercase" href="/Category/Index">(view all)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section class="card card-featured-left card-featured-primary mb-4">
+            <div class="card-body">
+                <div class="widget-summary widget-summary-xlg">
+
+                    <div class="widget-summary-col">
+                        <div class="summary">
+                            <h4 class="title">Brand</h4>
+                            <div class="info">
+                                <strong class="amount">@Model.Brand</strong>
+                            </div>
+                        </div>
+                        <div class="summary-footer">
+                            <a class="text-muted text-uppercase" href="/Brand/Index">(view all)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section class="card card-featured-left card-featured-primary mb-4">
+            <div class="card-body">
+                <div class="widget-summary widget-summary-xlg">
+
+                    <div class="widget-summary-col">
+                        <div class="summary">
+                            <h4 class="title">Product</h4>
+                            <div class="info">
+                                <strong class="amount">@Model.Product</strong>
+                            </div>
+                        </div>
+                        <div class="summary-footer">
+                            <a class="text-muted text-uppercase" href="/Product/Index">(view all)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+</div>
+
+
+

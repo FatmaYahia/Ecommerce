@@ -1,0 +1,17 @@
+﻿using Ecommerce.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace Ecommerce.ViewModel
+{
+    public class CategoryVM:Category
+    {
+        public int ID { get; set; }
+        [Required(ErrorMessage ="This field is required!")]
+        public string Name { get; set; }
+        public string Description { get; set; }
+    }
+}

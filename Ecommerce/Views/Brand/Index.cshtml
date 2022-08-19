@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "Brand";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Brand</h2>
+@Ajax.ActionLink("Create New Brand", "AddOrEditOrDetails", null, new AjaxOptions()
+{
+    UpdateTargetId = "data",
+    OnComplete = "AddBrand",
+    InsertionMode = InsertionMode.Replace,
+}, new { @class = "btn btn-primary" })
+@Html.Partial("GetDataTable")
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            datatableFunction();
+        })
+        var datatableFunction = function () {
+            $.ajax({
+                url: '/Brand/GetData',
+                method: 'Get',
+                data: {},
+                success: function (data) {
+                    //DataTable
+                    var dtObj = {
+                        data: data,
+                        responsive: true,
+                        retrieve: true,
+                        ordering: true,
+                        dom: 'Bfrtip',
+                        //buttons: dtBtns,
+                        columns: [
+                            { 'data': 'ID' },
+                            { 'data': 'Name' },
+                            {
+                                'data': 'ID',
+                                'searchable': false,
+                                'sortable': false,
+                                'render': function (code) {
+
+                                    var btns = '';
+
+                                    btns += '<a  onclick=EditBrand(' + code + ') style="margin:5px"><i class="fa fa-edit text-success"></i></a>';
+                                    btns += '<a  onclick=BrandDetails(' + code + ') style="margin:5px"><i class="fa fa-info-circle text-info"></i></a>';
+                                    btns += '<a  onclick=DeleteBrand(' + code + ') style="margin:5px"><i class="fa fa-trash text-danger"></i></a>';
+
+                                    return btns;
+                                }
+                            }
+                        ]
+                    };
+
+                    $("#BrandTable").dataTable().fnDestroy();
+                    $("#BrandTable").dataTable(dtObj);
+                }
+            });
+        }
+    </script>
+    <script>
+        function AddBrand() {
+            $("#modal").modal("show");
+        }
+        function EditBrand(id) {
+             $.ajax({
+			type: "Get",
+            url: "@Url.Action("AddOrEditOrDetails", "Brand")/" + id,
+            datatype: 'JSON',
+            data: { trigger: "edit" },
+            success: function (data) {
+                $("#modal .modal-body").html(data);
+                $("#modal").modal("show");
+
+            },
+            error: function (data) {
+                alert("Error!!");
+
+            }
+		});
+        }
+        function BrandDetails(id) {
+          $.ajax({
+              type: "Get",
+              url: "@Url.Action("AddOrEditOrDetails", "Brand")/" + id,
+              datatype: 'JSON',
+              data: { trigger: "details"},
+			success: function (data) {
+                $("#modal .modal-body").html(data);
+				$("#modal").modal("show");
+			}
+		});
+        }
+        function DeleteBrand(id) {
+        if (confirm('Are you sure you want delete this Brand?')) {
+                $.ajax({
+                    type: "Post",
+                    url: '@Url.Action("Delete", "Brand")/' + id,
+                    datatype: 'JSON',
+                    success: function (data) {
+                        if (data.done) {
+                            datatableFunction();
+                            alert(data.message)
+
+                        } else {
+                            datatableFunction();
+                            alter(data.message);
+
+                        }
+                    },
+                    error: function (response) {
+                        alert("Error!!");
+
+                    }
+                })
+            }
+    }
+    </script>
+
+}

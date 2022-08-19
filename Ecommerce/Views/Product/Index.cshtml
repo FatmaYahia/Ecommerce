@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Product</h2>
+<a onclick="AddProduct()" class="btn btn-primary">Create New Product</a>
+@Html.Partial("GetDataTable")
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            datatableFunction();
+
+        })
+        var datatableFunction = function () {
+            $.ajax({
+                url: '/Product/GetData',
+                method: 'Get',
+                data: {},
+                success: function (data) {
+                    //DataTable
+                    var dtObj = {
+                        data: data,
+                        responsive: true,
+                        retrieve: true,
+                        ordering: true,
+                        dom: 'Bfrtip',
+                        //buttons: dtBtns,
+                        columns: [
+                            { 'data': 'ID' },
+                            { 'data': 'Name' },
+                            { 'data': 'BrandName' },
+                            { 'data': 'CategoryName' },
+                            { 'data': 'Description' },
+                            { 'data': 'Price' },
+                            {
+                                'data': 'ID',
+                                'searchable': false,
+                                'sortable': false,
+                                'width':'415px',
+                                'render': function (code) {
+
+                                    var btns = '';
+
+                                    btns += '<a  onclick=EditProduct(' + code + ') style="margin:5px"><i class="fa fa-edit text-success"></i></a>';
+                                    btns += '<a  onclick=ProductDetails(' + code + ') style="margin:5px"><i class="fa fa-info-circle text-info"></i></a>';
+                                    btns += '<a  onclick=DeleteProduct(' + code + ') style="margin:5px"><i class="fa fa-trash text-danger"></i></a>';
+                                    btns += '<a  onclick=AddImages(' + code + ') class="btn btn-info">AddImages</a>';
+
+                                    return btns;
+                                }
+                            }
+                        ]
+                    };
+
+                    $("#ProductTable").dataTable().fnDestroy();
+                    $("#ProductTable").dataTable(dtObj);
+                }
+            });
+        }
+    </script>
+    <script>
+        function AddProduct() {
+
+            $.ajax({
+                type: "Get",
+                url: "@Url.Action("AddOrEditOrDetails", "Product")",
+                //contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#modal .modal-body").html(data);
+                    $("#modal").modal("show");
+                }
+            });
+        }
+            function EditProduct(id) {
+                $.ajax({
+			        type: "Get",
+                    url: "@Url.Action("AddOrEditOrDetails", "Product")/" + id,
+                    datatype: 'JSON',
+                    data: { trigger: "edit" },
+			        success: function (data) {
+                        $("#modal .modal-body").html(data);
+				        $("#modal").modal("show");
+			        }
+		        });
+            }
+            function ProductDetails(id) {
+              $.ajax({
+                  type: "Get",
+                  url: "@Url.Action("AddOrEditOrDetails", "Product")/" + id,
+                  datatype: 'JSON',
+                  data: { trigger: "details"},
+			    success: function (data) {
+                    $("#modal .modal-body").html(data);
+				    $("#modal").modal("show");
+			    }
+		    });
+            }
+
+        function DeleteProduct(id) {
+        if (confirm('Are you sure you want delete this Product?')) {
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("Delete", "Product")/' + id,
+                datatype: 'JSON',
+                success: function (data) {
+                    if (data.done) {
+
+                        datatableFunction();
+                        alert(data.message);
+                    } else {
+                        datatableFunction();
+                        alter(data.message);
+
+                    }
+                },
+                error: function (response) {
+                    alert("Error!!");
+
+                }
+            });
+            }
+        }
+        function AddImages(id) {
+                $.ajax({
+			        type: "Get",
+                    url: "@Url.Action("AddImage", "Product")/" + id,
+                    datatype: 'JSON',
+			        success: function (data) {
+                        $("#modal .modal-body").html(data);
+				        $("#modal").modal("show");
+			        }
+		        });
+            }
+    </script>
+
+}
+

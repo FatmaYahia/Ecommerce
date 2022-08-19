@@ -1,0 +1,152 @@
+﻿
+<style>
+    .error {
+        color: red
+    }
+</style>
+<h4>@ViewBag.Name</h4>
+
+<form method="post" enctype="multipart/form-data" id="MyForm">
+    <div class="form-group row">
+        @Html.Label("Image", new { @class = "col-md-3" })
+
+        <input type="file" name="Image" multiple />
+
+    </div>
+    <div class="form-group row">
+
+        <input type="submit" value="Save" class="btn btn-primary" />
+
+    </div>
+    <input type="number" name="ID" id="ID" value="@ViewBag.Id" hidden>
+
+</form>
+@Html.Partial("DataTable")
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        datatableImageFunction();
+
+    })
+    $("#MyForm").validate({
+        rules: {
+
+            Image: "required",
+            Image: {
+                required: true,
+            }
+        },
+        messages: {
+
+            Image: {
+                required: " You must add an image",
+            },
+
+        },
+        submitHandler: function (form) {
+            const formData = new FormData($("#MyForm")[0]);
+            PostForm(formData);
+        }
+    });
+    var PostForm = function (formData) {
+        $.ajax(
+            {
+                url: "/Product/AddImage",
+                method: "POST",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.done) {
+
+                        datatableImageFunction();
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+    }
+    function SetMain(id) {
+                $.ajax({
+			        type: "Get",
+                    url: "@Url.Action("SetMain", "Product")/" + id,
+                    datatype: 'JSON',
+                    data: { ProductFK: @ViewBag.Id },
+			        success: function (data) {
+                        alert(data.message);
+			        }
+		        });
+            }
+    function DeleteImage(id) {
+        if (confirm('Are you sure you want delete this Image?')) {
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("DeleteImage", "Product")/' + id,
+                datatype: 'JSON',
+                success: function (data) {
+
+                   if(data.done) {
+                        datatableImageFunction();
+                        alter(data.message);
+
+                    } else {
+                        datatableImageFunction();
+
+                        alter(data.message);
+
+                    }
+                }
+            });
+            }
+    }
+    var datatableImageFunction = function () {
+        $.ajax({
+            url: "@Url.Action("GetImage", "Product")/" + @ViewBag.Id,
+            method: 'Get',
+            data: {},
+            success: function (data) {
+                //DataTable
+                var dtObj = {
+                    data: data,
+                    responsive: true,
+                    retrieve: true,
+                    ordering: true,
+                    dom: 'Bfrtip',
+                    //buttons: dtBtns,
+                    columns: [
+                        { 'data': 'ID' },
+                        {
+                            'data': 'Image', "render": function (data) {
+                                return '<a href="/Attachment/ProductImages/' + data +'" target="_blank" ><img src="/Attachment/ProductImages/'+data+'" style="height:50px;width:50px;"/></a>';
+
+                            }
+                        },
+                        {
+                            'data': 'ID',
+                            'searchable': false,
+                            'sortable': false,
+                            'width': '250px',
+                            'render': function (code) {
+
+                                var btns = '';
+
+                                btns += '<a  onclick=DeleteImage(' + code + ') class="btn btn-danger" style="margin:5px">Delete<i class="fa fa-trash text-danger"></i></a>';
+                                btns += '<a  onclick=SetMain(' + code + ') class="btn btn-success" style="margin:5px">IsMain<i class="fa fa-edit text-success"></i></a>';
+                                return btns;
+                            }
+                        }
+                    ]
+                };
+
+                $("#ProductImageTable").dataTable().fnDestroy();
+                $("#ProductImageTable").dataTable(dtObj);
+            }
+        });
+    }
+</script>
+

@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Category</h2>
+<a onclick="AddCatgory()" class="btn btn-primary">Create New Category</a>
+@Html.Partial("GetDataTable")
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            datatableFunction();
+
+        })
+        var datatableFunction = function () {
+            $.ajax({
+                url: '/Category/GetData',
+                method: 'Get',
+                data: {},
+                success: function (data) {
+                    //DataTable
+                    var dtObj = {
+                        data: data,
+                        responsive: true,
+                        retrieve: true,
+                        ordering: true,
+                        dom: 'Bfrtip',
+                        //buttons: dtBtns,
+                        columns: [
+                            { 'data': 'ID' },
+                            { 'data': 'Name' },
+                            {
+                                'data': 'ID',
+                                'searchable': false,
+                                'sortable': false,
+                                'width':'415px',
+                                'render': function (code) {
+
+                                    var btns = '';
+
+                                    btns += '<a  onclick=EditCategory(' + code + ') style="margin:5px"><i class="fa fa-edit text-success"></i></a>';
+                                    btns += '<a  onclick=CategoryDetails(' + code + ')  style="margin:5px"><i class="fa fa-info-circle text-info"></i></a>';
+                                    btns += '<a  onclick=DeleteCategory(' + code + ')  style="margin:5px"><i class="fa fa-trash text-danger"></i></a>';
+                                    return btns;
+                                }
+                            }
+                        ]
+                    };
+
+                    $("#CategoryTable").dataTable().fnDestroy();
+                    $("#CategoryTable").dataTable(dtObj);
+                }
+            });
+        }
+    </script>
+    <script>
+        function AddCatgory() {
+
+            $.ajax({
+                type: "Get",
+                url: "@Url.Action("AddOrEditOrDetails", "Category")",
+                //contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#modal .modal-body").html(data);
+                    $("#modal").modal("show");
+                }
+            });
+        }
+        function EditCategory(id) {
+                $.ajax({
+			        type: "Get",
+                    url: "@Url.Action("AddOrEditOrDetails", "Category")/" + id,
+                    datatype: 'JSON',
+                    data: { trigger: "edit" },
+			        success: function (data) {
+                        $("#modal .modal-body").html(data);
+				        $("#modal").modal("show");
+			        }
+		        });
+            }
+        function CategoryDetails(id) {
+              $.ajax({
+                  type: "Get",
+                  url: "@Url.Action("AddOrEditOrDetails", "Category")/" + id,
+                  datatype: 'JSON',
+                  data: { trigger: "details"},
+			    success: function (data) {
+                    $("#modal .modal-body").html(data);
+				    $("#modal").modal("show");
+			    }
+		    });
+        }
+
+        function DeleteCategory(id) {
+            if (confirm('Are you sure you want delete this Category?')) {
+                $.ajax({
+                    type: "Post",
+                    url: '@Url.Action("Delete", "Category")/' + id,
+                    datatype: 'JSON',
+                    success: function (data) {
+                        if (data.done) {
+
+                            datatableFunction();
+                            alert(data.message)
+
+                        } else {
+                            datatableFunction();
+                            alter(data.message);
+
+                        }
+                    },
+                    error: function (response) {
+                        alert("Error!!");
+
+                    }
+                });
+                }
+        }
+        
+    </script>
+
+}
+

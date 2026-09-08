@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "G:\\SideProjects\\ECommerce\\ECommerce\\ECommerce.AppAdmin\\wwwroot\\images\\male_avatar_icon.jpg",
+      "PackagePath": "staticwebassets\\images\\male_avatar_icon.jpg"
+    },
+    {
       "Id": "G:\\SideProjects\\ECommerce\\ECommerce\\ECommerce.AppAdmin\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

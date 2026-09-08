@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "leh+N8DF/pmWiqkFlwV+zaDgPA5zBc4DCTRw53ldio4=",
+  "Hash": "KrXiZe8WGgRXhPy7DWzPidT+WjdS5xUp0Bm9PvQyZFI=",
   "Source": "ECommerce.AppAdmin",
   "BasePath": "_content/ECommerce.AppAdmin",
   "Mode": "Default",
@@ -1103,6 +1103,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "G:\\SideProjects\\ECommerce\\ECommerce\\ECommerce.AppAdmin\\wwwroot\\images\\male_avatar_icon.jpg",
+      "SourceId": "ECommerce.AppAdmin",
+      "SourceType": "Discovered",
+      "ContentRoot": "G:\\SideProjects\\ECommerce\\ECommerce\\ECommerce.AppAdmin\\wwwroot\\",
+      "BasePath": "_content/ECommerce.AppAdmin",
+      "RelativePath": "images/male_avatar_icon.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\male_avatar_icon.jpg"
     },
     {
       "Identity": "G:\\SideProjects\\ECommerce\\ECommerce\\ECommerce.AppAdmin\\wwwroot\\js\\site.js",

@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+.profilepicture {
+    width: 255px;
+    height: 255px;
+    object-fit: cover;
+}

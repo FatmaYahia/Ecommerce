@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+<div class="metrics" id="metrics"></div>
+
+<div class="content-grid">
+    <div class="panel">
+        <div class="panel-head">
+            <h2>Sales performance</h2>
+            <div class="tab-row">
+                <div class="tab">7d</div>
+                <div class="tab active">30d</div>
+                <div class="tab">90d</div>
+            </div>
+        </div>
+        <div class="legend">
+            <span><span class="dot" style="background:#1c2340"></span>This period</span>
+            <span><span class="dot" style="background:#e8a13d"></span>Previous period</span>
+        </div>
+        <div class="chart-wrap"><canvas id="salesChart" role="img" aria-label="Line chart comparing this month's daily sales to last month's"></canvas></div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-head"><h2>Top products</h2></div>
+        <div id="topProducts"></div>
+    </div>
+</div>
+
+<div class="table-panel">
+    <div class="panel-head">
+        <h2>Recent orders</h2>
+        <button class="btn">View all</button>
+    </div>
+    <table>
+        <thead>
+            <tr><th>Order</th><th>Customer</th><th>Date</th><th>Status</th><th style="text-align:right">Total</th><th></th></tr>
+        </thead>
+        <tbody id="ordersBody"></tbody>
+    </table>
+</div>
